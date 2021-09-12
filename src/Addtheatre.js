@@ -9,13 +9,13 @@ function Addtheatre() {
     let handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            let logindata = await axios.post(`${env.api}/addtheatre`, {name},{
+            let data = await axios.post(`${env.api}/addtheatre`, {name},{
                 headers : {
                   "Authorization" : window.localStorage.getItem("app_token")
                 }
               })
-            console.log(logindata)
-            history.push("/user")
+            console.log(data)
+            history.push("/admin")
         } catch (error) {
             console.log(error)
         }
@@ -27,7 +27,7 @@ function Addtheatre() {
                 <div className="row">
                     <div className="col col-md-6">
                         <label>Theatre Name</label>
-                        <input type="text" value={name} onChange={(e)=>e.target.value} className="form-control"/>
+                        <input type="text" value={name} onChange={(e)=>setname(e.target.value)} className="form-control"/>
                     </div>
                     <div className="col col-md-12">
                             <input type="submit" value="Submit" className="btn btn-primary mt-3" />
