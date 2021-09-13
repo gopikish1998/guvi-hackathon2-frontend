@@ -8,11 +8,16 @@ function Addmovie(props) {
     const [time, setTime] = useState("");
     const [url, setUrl] = useState("");
     let history=useHistory();
-    
+    let seats = [];
+    for(let i=1;i<=10;i++){
+        for( let j=1;j<=10;j++){
+            seats.push({row:i,_id:j,status:false,booked:false})
+        }
+    }
     let handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            let data = await axios.post(`${env.api}/addshow/${props.match.params.id}`, {movieName,time,url},{
+            let data = await axios.post(`${env.api}/addshow/${props.match.params.id}`, {movieName,time,url,seats},{
                 headers : {
                   "Authorization" : window.localStorage.getItem("app_token")
                 }
@@ -49,3 +54,6 @@ function Addmovie(props) {
 }
 
 export default Addmovie
+
+
+

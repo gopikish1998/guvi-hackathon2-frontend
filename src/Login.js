@@ -13,7 +13,7 @@ function Login() {
         e.preventDefault()
         try {
             let logindata = await axios.post(`${env.api}/login`, { username, password })
-            console.log(logindata)
+            // console.log(logindata)
             window.localStorage.setItem("app_token",logindata.data.token)
             history.push("/user")
         } catch (error) {

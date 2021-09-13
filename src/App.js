@@ -50,7 +50,7 @@ function App() {
           <Route path="/user" component={User} exact="true"/>
           <Route path="/addtheatre" component={Addtheatre} exact="true"/>
           <Route path="/theatre/addmovie/:id" component={Addmovie} exact="true"/>
-          <Route path="/bookshow" component={Bookshow} exact="true"/>
+          <Route path="/bookshow/:id" component={Bookshow} exact="true"/>
           <Route path="/viewbooks" component={Viewbooks} exact="true"/>
           <Route path="/theatre/:id" component={Theatre} exact="true"/>
           <Route path="/login-user" component={Login} exact="true"/>

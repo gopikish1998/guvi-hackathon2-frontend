@@ -22,6 +22,7 @@ function User() {
                     }
                 })
             });
+            console.log(data.data[0])
             setList((data.data)[0])
             // setList(data.data[0])
             // console.log(list)
@@ -68,7 +69,7 @@ function User() {
                             </div>
                         </div>
                         <div class="card-footer">
-                            <Link class="btn btn-info btn-sm" to="/bookshow">Book Now</Link>
+                            <Link class="btn btn-info btn-sm" to={`/bookshow/${obj._id}`}>Book Now</Link>
                         </div>
                     </div>
                 </div>
