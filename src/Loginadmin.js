@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import './Login.css';
 import env from "./settings";
@@ -8,16 +8,23 @@ import env from "./settings";
 function Loginadmin() {
     const [username, setusername] = useState("");
     const [password, setpassword] = useState("");
+    const [message, setMessage] = useState(true);
     let history = useHistory()
+    useEffect(() => {
+        {window.localStorage.getItem("admin_token")?history.push('/admin'):<></>}
+    }, [])
     let handleSubmit = async (e) => {
         e.preventDefault()
         try {
             let logindata = await axios.post(`${env.api}/login-admin`, { username, password })
             console.log(logindata)
-            window.localStorage.setItem("app_token",logindata.data.token)
+            window.localStorage.setItem("admin_token",logindata.data.token)
             history.push("/admin")
+          window.location.reload()
+
         } catch (error) {
             console.log(error)
+            setMessage(false)
         }
     }
     return (
@@ -34,7 +41,7 @@ function Loginadmin() {
                     <input type="password" value={password} onChange={e => setpassword(e.target.value)} class="form-control" id="floatingPassword" placeholder="Password" />
                     <label for="floatingPassword">Password</label>
                 </div>
-
+                {message? <></>:<label style={{color:"red"}}>Username/Password is incorrect</label>}
                 {/* <div class="checkbox mb-3">
                     <label>
                         <input type="checkbox" value="remember-me" /> Remember me

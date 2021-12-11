@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import env from './settings';
 function Addtheatre() {
@@ -11,7 +11,7 @@ function Addtheatre() {
         try {
             let data = await axios.post(`${env.api}/addtheatre`, {name},{
                 headers : {
-                  "Authorization" : window.localStorage.getItem("app_token")
+                  "Authorization" : window.localStorage.getItem("admin_token")
                 }
               })
             console.log(data)
@@ -20,7 +20,9 @@ function Addtheatre() {
             console.log(error)
         }
     }
-    
+    useEffect(() => {
+        {window.localStorage.getItem("admin_token")?<></>:history.push('/login-admin')}
+    }, [])
     return (
         <div className="container">
             <form onSubmit={handleSubmit}>

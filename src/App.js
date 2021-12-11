@@ -5,7 +5,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useHistory
 } from 'react-router-dom';
 import Home from './Home';
 import Loginadmin from './Loginadmin';
@@ -17,15 +18,16 @@ import Addmovie from './Addmovie';
 import Theatre from './Theatre';
 import Bookshow from './Bookshow';
 import Viewbooks from './Viewbooks';
-
 function App() {
+  let history= useHistory();
+  
   return (
 
     <div>
       <Router>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-         <a class="navbar-brand" href="#">Movie Booking</a>
+         <Link class="navbar-brand" to="/">Movie Booking</Link>
          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
          </button>
@@ -41,7 +43,19 @@ function App() {
            <Link class="nav-link" to="/login-admin">Admin</Link>
         </li>
       </ul>
-    </div>
+      </div>
+      {window.localStorage.getItem("app_token")?<button className="btn navbar-btn btn-danger navbar-right pull-right" onClick={() => {
+          window.localStorage.removeItem("app_token")
+          window.location.reload()
+        }}>Logout</button> :window.localStorage.getItem("admin_token")?<button className="btn navbar-btn btn-danger navbar-right pull-right" onClick={() => {
+          window.localStorage.removeItem("admin_token")
+          window.location.reload()
+        }}>Logout</button>:<Link to="/" className="btn navbar-btn btn-primary navbar-right pull-right">Login</Link>}
+   
+    {/* {window.localStorage.getItem("app_token")?<button className="btn navbar-btn btn-danger navbar-right pull-right" onClick={() => {
+          window.localStorage.removeItem("app_token");
+          history.push("/")
+        }}>Logout</button> :<div className="btn navbar-btn btn-danger navbar-right pull-right">Login</div>} */}
   </div>
 </nav>
         <Switch>
@@ -51,7 +65,7 @@ function App() {
           <Route path="/addtheatre" component={Addtheatre} exact="true"/>
           <Route path="/theatre/addmovie/:id" component={Addmovie} exact="true"/>
           <Route path="/bookshow/:id" component={Bookshow} exact="true"/>
-          <Route path="/viewbooks" component={Viewbooks} exact="true"/>
+          <Route path="/viewbooks/:id" component={Viewbooks} exact="true"/>
           <Route path="/theatre/:id" component={Theatre} exact="true"/>
           <Route path="/login-user" component={Login} exact="true"/>
           <Route path="/register-user" component={Register} exact="true"/>

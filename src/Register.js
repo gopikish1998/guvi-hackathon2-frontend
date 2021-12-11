@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 // import './Register.css';
 import env from "./settings";
@@ -14,11 +14,15 @@ function Register() {
         console.log({ username, password, confirmpassword })
         try {
             await axios.post(`${env.api}/register`, { username, password });
+            alert('Confirmation Email sent! confirm it to login')
             history.push("/login-user")
         } catch (error) {
             console.log(error)
         }
     }
+    useEffect(() => {
+        {window.localStorage.getItem("app_token")?history.push('/user'):<></>}
+    }, [])
     return (
         <main class="form-signin text-center">
             <form onSubmit={(e) => {

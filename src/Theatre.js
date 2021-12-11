@@ -1,17 +1,20 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import env from './settings'
 
 function Theatre(props) {
     const [list, setList] = useState([])
+    const history = useHistory()
     let fetchMovies = async() => {
         try{
             let data= await axios.get(`${env.api}/movies/${props.match.params.id}`,{
                 headers : {
-                  "Authorization" : window.localStorage.getItem("app_token")
+                  "Authorization" : window.localStorage.getItem("admin_token")
                 }
               })
+              console.log(data)
             setList([...data.data])
             // setLoading(false)
         }
@@ -22,6 +25,7 @@ function Theatre(props) {
     }
     useEffect(async () => {
         try {
+            {window.localStorage.getItem("admin_token")? <></>:history.push('/login-admin')}
             fetchMovies();
         } catch (error) {
             
@@ -31,7 +35,7 @@ function Theatre(props) {
         try{
             let data= await axios.delete(`${env.api}/remove-movie/${id}`,{
                 headers : {
-                  "Authorization" : window.localStorage.getItem("app_token")
+                  "Authorization" : window.localStorage.getItem("admin_token")
                 }
               })
             fetchMovies();
@@ -62,7 +66,7 @@ function Theatre(props) {
                             </div>
                         </div>
                         <div class="card-footer">
-                            <Link class="btn btn-info btn-sm" to="/viewbooks">View Bookings</Link>
+                            <Link class="btn btn-info btn-sm" to={`/viewbooks/${obj._id}`}>View Bookings</Link>
                             <button class="btn btn-info btn-sm btn-danger" onClick={()=> {handleDelete(obj._id)}}>Remove Show</button>
                         </div>
                     </div>

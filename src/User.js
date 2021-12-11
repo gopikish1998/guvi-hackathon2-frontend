@@ -36,7 +36,7 @@ function User() {
     }
     useEffect(async() => {
         try{
-
+            {window.localStorage.getItem("app_token")? <></>:history.push("/login-user")}
             fetchMovies();
         }
         catch(error){
@@ -46,11 +46,12 @@ function User() {
     }, []);
     return (
         <div class="container">
-            {window.localStorage.getItem("app_token")?<button className="btn btn-primary" onClick={() => {
+            {/* {window.localStorage.getItem("app_token")?<button className="btn btn-primary" onClick={() => {
           window.localStorage.removeItem("app_token");
           history.push("/login-user")
-        }}>Logout</button> : <></> }
+        }}>Logout</button> : <></> } */}
         <div class="container">
+            {/* {window.localStorage.getItem("")} */}
             <div class="container row">
             
             {list.map((obj)=>{

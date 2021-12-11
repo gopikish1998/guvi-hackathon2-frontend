@@ -1,16 +1,18 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import env from './settings'
 
 
 function Admin() {
     const [list, setList] = useState([])
+    let history =  useHistory();
     let fetchTheatres = async() => {
         try{
             let data= await axios.get(`${env.api}/theatres`,{
                 headers : {
-                  "Authorization" : window.localStorage.getItem("app_token")
+                  "Authorization" : window.localStorage.getItem("admin_token")
                 }
               })
             setList([...data.data])
@@ -23,7 +25,7 @@ function Admin() {
     }
     useEffect(async() => {
         try{
-
+            {window.localStorage.getItem("admin_token")?<></>:history.push("/login-admin")}
             fetchTheatres();
         }
         catch(error){
@@ -35,7 +37,7 @@ function Admin() {
         try{
             let data= await axios.delete(`${env.api}/remove-theatre/${id}`,{
                 headers : {
-                  "Authorization" : window.localStorage.getItem("app_token")
+                  "Authorization" : window.localStorage.getItem("admin_token")
                 }
               })
             fetchTheatres();
@@ -48,10 +50,8 @@ function Admin() {
     }
     return (
         <div className="container">
-            <Link className="mx-3 btn btn-primary " to="/addtheatre">Add a theatre</Link>
- 
-            
-            <br/>
+            <Link className="mt-3 btn btn-primary d-flex justify-content-center" to="/addtheatre">Add a theatre</Link>
+             <br/>
             <h2>Your Theatres</h2>
             <div class="container row">
                 {list.map((obj)=>{
