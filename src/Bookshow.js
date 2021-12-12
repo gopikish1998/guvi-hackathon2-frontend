@@ -3,6 +3,20 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import env from './settings'
 
+function loadScript(src) {
+	return new Promise((resolve) => {
+		const script = document.createElement('script')
+		script.src = src
+		script.onload = () => {
+			resolve(true)
+		}
+		script.onerror = () => {
+			resolve(false)
+		}
+		document.body.appendChild(script)
+	})
+}
+
 function Bookshow(props) {
     const [list, setList] = useState([])
     const [count,setCount]=useState(0)
@@ -66,15 +80,59 @@ function Bookshow(props) {
     let handleSubmit= async(e)=>{
         e.preventDefault()
         try {
-            
-            let data=await axios.put(`${env.api}/seatbooked/${props.match.params.id}`,{userid},{
+            const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
+            console.log(res)
+            let data1= await axios.post(`${env.api}/razorpay`,{},{
                 headers : {
                     "Authorization" : window.localStorage.getItem("app_token")
                   }
-            })
-            console.log(data.data.data[0].seats.filter(obj=>obj.booked==true&&obj.bookedid==userid))
-            alert('tickets sent on mail')
-            history.push("/")
+            });
+            console.log(data1.data)
+            var options = {
+                key: "rzp_test_ATpjQlVb8Ah2vF", // Enter the Key ID generated from the Dashboard
+                amount: data1.data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                currency: data1.data.currency,
+                name: "To Gopi",
+                description: "Test Transaction",
+                handler: async function (response){
+                    // alert(response.razorpay_payment_id);
+                    // alert(response.razorpay_order_id);    
+                    // alert(response.razorpay_signature)};
+                    let data=await axios.put(`${env.api}/seatbooked/${props.match.params.id}`,{userid},{
+                        headers : {
+                            "Authorization" : window.localStorage.getItem("app_token")
+                          }
+                    })
+                    console.log(data.data.data[0].seats.filter(obj=>obj.booked==true&&obj.bookedid==userid))
+                    alert('tickets sent on mail')
+                    history.push("/")},
+                // "image": "https://example.com/your_logo",
+                order_id: data1.data.id,                 
+                theme: {
+                    "color": "#3399cc"
+                }
+            };
+            console.log(options)
+            const rzp1 =await new window.Razorpay(options);
+            await rzp1.open()
+            // console.log(typeof(rzp1))
+            // rzp1.on('payment.failed', function (response){
+            //     alert(response.error.code);
+            //     alert(response.error.description);
+            //     alert(response.error.source);
+            //     alert(response.error.step);
+            //     alert(response.error.reason);
+            //     alert(response.error.metadata.order_id);
+            //     alert(response.error.metadata.payment_id);
+            // })
+            // let data=await axios.put(`${env.api}/seatbooked/${props.match.params.id}`,{userid},{
+            //     headers : {
+            //         "Authorization" : window.localStorage.getItem("app_token")
+            //       }
+            // })
+            // console.log(data.data.data[0].seats.filter(obj=>obj.booked==true&&obj.bookedid==userid))
+            // // alert('tickets sent on mail')
+            // history.push("/")
         } catch (error) {
             
         }
