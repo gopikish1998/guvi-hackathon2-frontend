@@ -48,10 +48,10 @@ function Home() {
     return (
         <div class="container">
 
-        {window.localStorage.getItem("app_token")? <div></div>:<div className='d-flex justify-content-around align-items-center row'>
+        {/* {window.localStorage.getItem("app_token")? <div></div>:<div className='d-flex justify-content-around align-items-center row'>
                 <Link className='btn btn-primary mt-3 p-3 col-lg-4' to="/user">Click here to Login as User</Link>
                 <Link className="btn btn-primary mt-3 p-3 col-lg-4" to="/admin">Click here to Login as Admin</Link>
-            </div>}
+            </div>} */}
         <div class="container">
             <div class="container row">
             
