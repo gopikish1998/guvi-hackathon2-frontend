@@ -51,7 +51,7 @@ function Registeradmin() {
                     </label>
                 </div> */}
                 <input class="w-100 btn btn-lg btn-primary" disabled={password!==confirmpassword} type="submit" value="Sign up" />
-                <p class="mt-5 mb-3 text-muted">Already have an account<Link to="/login-admin" className="btn btn-primary">Login here</Link></p>
+                <p class="mt-5 mb-3 text-muted">Already have an account <Link to="/login-admin">Login here</Link></p>
             </form>
         </main>
     )

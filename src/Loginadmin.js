@@ -48,7 +48,7 @@ function Loginadmin() {
                     </label>
                 </div> */}
                <input class="w-100 btn btn-lg btn-primary" type="submit" value="Sign in" />
-                <p class="mt-5 mb-3 text-muted">Don't have an account<Link to="/register-admin" className="btn btn-primary">Register here</Link></p>
+                <p class="mt-5 mb-3 text-muted">Don't have an account <Link to="/register-admin">Register here</Link></p>
             </form>
         </main>
 
