@@ -8,6 +8,7 @@ import env from "./settings";
 function Login() {
     const [username, setusername] = useState("");
     const [password, setpassword] = useState("");
+    const [message, setMessage] = useState(true);
     let history = useHistory()
     useEffect(() => {
         {window.localStorage.getItem("app_token")?history.push('/user'):<></>}
@@ -23,6 +24,7 @@ function Login() {
           window.location.reload()
 
         } catch (error) {
+            setMessage(false)
             console.log(error)
         }
     }
@@ -41,6 +43,7 @@ function Login() {
                     <input type="password" value={password} onChange={e => setpassword(e.target.value)} class="form-control" id="floatingPassword" placeholder="Password" />
                     <label for="floatingPassword">Password</label>
                 </div>
+                {message? <></>:<label style={{color:"red"}}>Username/Password is incorrect</label>}
 
                 {/* <div class="checkbox mb-3">
                     <label>

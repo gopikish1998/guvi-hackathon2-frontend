@@ -72,7 +72,7 @@ function Home() {
                         </div>
                         <div class="card-footer">
                             
-                            {window.localStorage.getItem("app_token")?<Link class="btn btn-info btn-sm" to={`/bookshow/${obj._id}`}>Book Now</Link>:<>Please Login to Book the tickets</>}
+                            {window.localStorage.getItem("app_token")?<Link class="btn btn-info btn-sm" to={`/bookshow/${obj._id}`}>Book Now</Link>:<>Please Login as customer to Book the tickets</>}
 
                         </div>
                     </div>

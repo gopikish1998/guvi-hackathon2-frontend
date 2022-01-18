@@ -58,7 +58,7 @@ function User() {
                 return(
                     <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
                     <div class="card card-inverse card-info">
-                        <img class="card-img-top" src={`${obj.url}`}/>
+                        <img class="card-img-top" style={{height:'250px'}} alt='Poster Unavailable' src={`${obj.url}`}/>
                         <div class="card-block">
                             <figure class="profile profile-inline">
                                 {/* <img src={obj.url} class="profile-avatar" alt=""/> */}
