@@ -25,35 +25,27 @@ function Bookshow(props) {
     let history=useHistory();
     
     let fetchSeats = async() => {
-        let c=0;
-        let s=[]
+        
         try{
-            let data= await axios.get(`${env.api}/seats/${props.match.params.id}`,{
+            let {data}= await axios.get(`${env.api}/seats/${props.match.params.id}`,{
                 headers : {
                   "Authorization" : window.localStorage.getItem("app_token")
                 }
-              })
-            //   console.log(data.data[0].userid)
-              setUserid(data.data[0].userid)
-              setList(data.data[0].seats)
-              list.forEach(item=>{
-                if(item.status&& !item.booked){
-                    c++;
-                    s=[...s,item]
-
-                }                       
-         })
-                setSelected(s)
-              setCount(c)
-            //   console.log(list)
-            //   console.log(selected)
-              
+            })
+            console.log(data)
+            setUserid(data.userid)
+            setList(data.seats)
+            setSelected(data.seats.filter(item => item.status === true && item.statusid === userid && item.booked === false))
+            setCount(data.seats.filter(item => item.status===true&&item.statusid===userid&&item.booked===false ).length)
+            // setCount(selected.length)
+            console.log(list)
+            // console.log(userid)
+            console.log(selected)
            }
         catch(error){
             console.log(error);
         }
     }
-    let getSelected=
     useEffect(async() => {
         try{
             {window.localStorage.getItem("app_token")? <></>:history.push('/login-admin')}
@@ -63,15 +55,28 @@ function Bookshow(props) {
             console.log(error);
         }
     }, []);
+    // let Test = async (e) => {
+    //     e.preventDefault()
+    //     const data = axios.get(`${env.api}/sample`, {
+    //         headers : {
+    //                 "Authorization" : window.localStorage.getItem("app_token")
+    //               }
+    //     })
+    //     console.log(data)
+    // }
     let handleChange=async (e,obj)=>{
         // console.log(e)
-        if(!obj.booked){
+        if(!obj.booked&&(obj.statusid==0||obj.statusid===userid)){
             obj.status=!obj.status
-            await axios.put(`${env.api}/seatbook/${props.match.params.id}`,{status:obj.status,_id:obj._id,row:obj.row},{
+            const {data}= await axios.put(`${env.api}/seatbook/${props.match.params.id}`,{status:obj.status,_id:obj._id,row:obj.row},{
                 headers : {
                     "Authorization" : window.localStorage.getItem("app_token")
                   }
             })
+            // setList(data.value.seats)
+            console.log(data)
+            // setSelected(data.value.seats.filter(item => item.status===true&&item.statusid===userid&&item.booked===false ))
+            // setCount(data.value.seats.filter(item => item.status===true&&item.statusid===userid&&item.booked===false ).length)
             fetchSeats()
         }
         else{
@@ -103,11 +108,17 @@ function Bookshow(props) {
                             "Authorization" : window.localStorage.getItem("app_token")
                           }
                     })
-                    console.log(data.data.data[0].seats.filter(obj=>obj.booked==true&&obj.bookedid==userid))
+                    // console.log(data.data.data[0].seats.filter(obj=>obj.booked==true&&obj.bookedid==userid))
                     alert('Tickets booked and sent on mail')
-                    history.push("/")},
+                    history.push("/")
+                },
                 // "image": "https://example.com/your_logo",
-                order_id: data1.data.id,                 
+                order_id: data1.data.id,   
+                prefill: {
+                    "name": "Test User",
+                    "email": "testuser@example.com",
+                    "contact": "9999999999"
+                    },
                 theme: {
                     "color": "#3399cc"
                 }
@@ -196,6 +207,7 @@ function Bookshow(props) {
                     Total Payable : <span style={{color:'blue'}}>Rs. {250*count}</span><br/>
                     {/* Selected Seats : <span style={{color:'blue'}}></span><br/> */}
                     <button class="btn btn-primary" disabled={!count} onClick={e=>handleSubmit(e)} >Make Payment</button>
+                    {/* <button class="btn btn-primary" onClick={e=>Test(e)} >Test</button> */}
                     </h3>
                 </div>
             </div>
