@@ -77,12 +77,12 @@ function Bookshow(props) {
         else{
         }
     }
-    let handleSubmit= async(e)=>{
+    let handleSubmit= async(e,)=>{
         e.preventDefault()
         try {
             const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
             console.log(res)
-            let data1= await axios.post(`${env.api}/razorpay`,{},{
+            let data1= await axios.post(`${env.api}/razorpay`,{count},{
                 headers : {
                     "Authorization" : window.localStorage.getItem("app_token")
                   }
@@ -104,7 +104,7 @@ function Bookshow(props) {
                           }
                     })
                     console.log(data.data.data[0].seats.filter(obj=>obj.booked==true&&obj.bookedid==userid))
-                    alert('tickets sent on mail')
+                    alert('Tickets booked and sent on mail')
                     history.push("/")},
                 // "image": "https://example.com/your_logo",
                 order_id: data1.data.id,                 

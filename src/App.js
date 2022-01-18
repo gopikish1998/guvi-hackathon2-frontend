@@ -37,10 +37,10 @@ function App() {
              <Link class="nav-link active" aria-current="page" to="/">Home</Link>
           </li>
           <li class="nav-item">
-            <Link class="nav-link" to="/login-user">User</Link>
+            <Link class="nav-link" to="/login-user">Customer</Link>
           </li>
           <li class="nav-item">
-           <Link class="nav-link" to="/login-admin">Admin</Link>
+           <Link class="nav-link" to="/login-admin">Theatre Management</Link>
         </li>
       </ul>
       </div>
@@ -50,7 +50,7 @@ function App() {
         }}>Logout</button> :window.localStorage.getItem("admin_token")?<button className="btn navbar-btn btn-danger navbar-right pull-right" onClick={() => {
           window.localStorage.removeItem("admin_token")
           window.location.reload()
-        }}>Logout</button>:<Link to="/" className="btn navbar-btn btn-primary navbar-right pull-right">Login</Link>}
+        }}>Logout</button>:<Link to="/login-user" className="btn navbar-btn btn-primary navbar-right pull-right">Login</Link>}
    
     {/* {window.localStorage.getItem("app_token")?<button className="btn navbar-btn btn-danger navbar-right pull-right" onClick={() => {
           window.localStorage.removeItem("app_token");
